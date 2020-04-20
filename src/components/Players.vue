@@ -1,15 +1,21 @@
 <template>
     <div class="wrapper-player">
-        <div class="player-panel" v-bind:class="{active : activePlayer == 0 }">
-            <div class="player-name">Winner</div>
+        <div class="player-panel" v-bind:class="{
+            active : activePlayer == 0 && !this.isWinner,
+            winner: activePlayer == 0 && this.isWinner
+        }">
+            <div class="player-name">{{getNamePlayer(0)}}</div>
             <div class="player-score">{{scorePlayer[0]}}</div>
             <div class="player-current-box">
                 <div class="player-current-label">Current</div>
                 <div class="player-current-score">{{activePlayer == 0 ? currentScore : 0}}</div>
             </div>
         </div>
-        <div class="player-panel" v-bind:class="{active : activePlayer == 1 }">
-            <div class="player-name">Player 2</div>
+        <div class="player-panel" v-bind:class="{
+            active : activePlayer == 1 && !this.isWinner,
+            winner: activePlayer == 1 && this.isWinner
+            }">
+            <div class="player-name">{{getNamePlayer(1)}}</div>
             <div class="player-score">{{scorePlayer[1]}}</div>
             <div class="player-current-box">
                 <div class="player-current-label">Current</div>
@@ -26,13 +32,23 @@ export default {
        
         scorePlayer:  {type : Array  , default:[0,0] },
         currentScore: {type : Number , default:0     },
-        activePlayer: {type : Number , default:0     }
+        activePlayer: {type : Number , default:0     },
+        isWinner : {type : Boolean,default:false}
     },
     data(){
         return {
 
         }
-    }
+    },
+    methods: {
+        getNamePlayer(index){
+            var defaultName = 'Player ' + (index + 1);
+            if(this.activePlayer == index && this.isWinner){
+                defaultName = 'Winner!';
+            }
+            return defaultName;
+        }
+    },
 }
 </script>
 

@@ -5,9 +5,15 @@
                 v-bind:scorePlayer="scorePlayer" 
                 v-bind:activePlayer="activePlayer" 
                 v-bind:currentScore="currentScore" 
+                v-bind:isWinner="isWinner"
             />
             <controls 
               v-on:handleNewGame="handleNewGame"
+              v-on:handleRollDice="handleRollDice"
+              v-on:handleHoldScore="handleHoldScore"
+              v-bind:finalScore="finalScore"
+              v-on:changeFinalScore="changeFinalScore"
+              v-bind:isPlaying="isPlaying"
             />
             <dices
                v-bind:dices="dices" 
@@ -31,11 +37,12 @@ export default {
 	data () {
 		return {
             isPlaying:false,
-            scorePlayer:[13,30],
-            activePlayer:1,
+            scorePlayer:[0,0],
+            activePlayer:0,
             currentScore : 0,
             isOpenPopup:false,
-            dices:[5,5]
+            dices:[5,5],
+            finalScore : 20
 		}
 	},
 	components: {
@@ -46,6 +53,17 @@ export default {
     },
     computed: {
         
+    },
+    computed: {
+        isWinner(){
+            console.log("caallll here");
+            let {scorePlayer,finalScore} = this;
+            if(scorePlayer[0] >= finalScore ||  scorePlayer[1] >= finalScore){
+                this.isPlaying = false;
+                return true;
+            }
+            return false;
+        }
     },
     methods: {  
         handleNewGame(){
@@ -59,6 +77,54 @@ export default {
             this.scorePlayer = [0,0];
             this.currentScore = 0;
 
+        },
+
+        nextPlayer(){
+            this.activePlayer = this.activePlayer === 0 ? 1 : 0;
+            this.currentScore = 0;
+        },
+
+        handleRollDice(){
+            if(this.isPlaying){
+                var dice1 = Math.floor(Math.random() * 6) + 1;
+                var dice2 = Math.floor(Math.random() * 6) + 1;
+                this.dices = [dice1,dice2];
+
+                if(dice1 == 1 || dice2 == 1){
+                    setTimeout(() => {
+                        alert(`Nguoi choi Player ${this.activePlayer + 1} da quay trung so 1.Rat tiec`);
+                    },15)
+                    this.nextPlayer();
+                } else {
+                 this.currentScore = this.currentScore + dice1 + dice2;
+                }
+            } else {
+                alert("Vui long nhan vao nut new game");
+            }
+        },
+        handleHoldScore(){
+            if(this.isPlaying){
+               let { scorePlayer, activePlayer, currentScore} = this;
+
+                let cloneScorePlayer = [...scorePlayer];
+               let scoreOld = scorePlayer[activePlayer];
+               cloneScorePlayer[activePlayer] = scoreOld + currentScore;
+               this.scorePlayer = cloneScorePlayer;
+               if(!this.isWinner){
+                    this.nextPlayer();
+               }
+              
+            } else {
+                 alert("Vui long nhan vao nut new game");
+            }
+        },
+        changeFinalScore(e){
+            var number = parseInt(e.target.value);
+            if(isNaN(number)){
+                this.finalScore = 0;
+            } else {
+                this.finalScore = number;
+            }
         }
     }
 }

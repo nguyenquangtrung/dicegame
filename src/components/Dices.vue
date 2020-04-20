@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div id="dice-2" class="dice">
-                <div class="spinner" v-bind:class="' dice-' + dices[0]">
+                <div class="spinner" v-bind:class="' dice-' + dices[1]">
                     <div class="face1">1</div>
                     <div class="face2">2</div>
                     <div class="face3">3</div>
