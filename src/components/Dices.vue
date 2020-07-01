@@ -20,6 +20,9 @@
                     <div class="face6">6</div>
                 </div>
             </div>
+            <div>
+                <h1>aaaaaaaaaaaaaaaaaaaaa</h1>
+            </div>
     </div>
 </template>
 <script>
