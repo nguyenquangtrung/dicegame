@@ -1,8 +1,5 @@
 <template>
     <div class="wrapper-die">
-     <div>
-                <h1>Nguyen Quang trung</h1>
-            </div>
              <div id="dice-1" class="dice">
                 <div class="spinner" v-bind:class="' dice-' + dices[0]">
                     <div class="face1">1</div>
@@ -22,9 +19,6 @@
                     <div class="face5">5</div>
                     <div class="face6">6</div>
                 </div>
-            </div>
-            <div>
-                <h1>Nguyen Quang trung</h1>
             </div>
     </div>
 </template>
